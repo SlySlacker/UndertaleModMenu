@@ -17,10 +17,10 @@ class UndertaleMod
 
     public void Cons(Mem mem)
     {
-
-        while (true)
+        
+        while (true) 
         {
-            string? input = Console.ReadLine();
+            string? input = Console.ReadLine(); // anything that passes the input string to a method will need to have the input string filtered 
             if (input != null)
             {
                 input = input.ToLower().Trim();
@@ -32,23 +32,22 @@ class UndertaleMod
 
                 else if (input.Contains("setmaxhp"))
                 {
-                    SetMaxHp(mem, input) ;
+                    input = input.Replace("setmaxhp ", "");
+                    SetMaxHp(mem, input);
                 }
                 else if (input.Contains("setgold"))
                 {
+                    input = input.Replace("setgold ", "");
                     SetGold(mem, input);
                 }
-
                 else if (input.Contains("kill"))
                 {
                     Kill(mem);
                 }
-
                 else if (input.Contains("help"))
                 {
                     Help(mem);
                 }
-
                 else if (input.Contains("readall"))
                 {
                     ReadValues(mem);
@@ -65,8 +64,8 @@ class UndertaleMod
                 else if (input == "help")
                 {
                     Help(mem);
-
-                } else
+                }
+                else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Unknown command!");
@@ -106,13 +105,15 @@ class UndertaleMod
             Console.WriteLine("");
             Console.WriteLine("changeweapon, setgold");
             Console.ForegroundColor = ConsoleColor.White;
-
-
-            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
-            Console.WriteLine("An unknown error has occured");
+            if (Debugger.IsAttached) {
+                Console.WriteLine("Error at help: " + ex);
+            } else {
+                Console.WriteLine("An unknown error has occured");
+            }
+            
         }
     }
 
