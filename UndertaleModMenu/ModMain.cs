@@ -29,7 +29,6 @@ class UndertaleMod
                     input = input.Replace("sethp ", "");
                     SetHp(mem, input);
                 }
-
                 else if (input.Contains("setmaxhp "))
                 {
                     input = input.Replace("setmaxhp ", "");
@@ -209,9 +208,10 @@ class UndertaleMod
     {
         Double hp = mem.ReadDouble(CurrentHpPtr);
         Double maxhp = mem.ReadDouble(MaxHpPtr);
+        Double gold = mem.ReadDouble(CurrentGold);
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine("Current hp: " + hp);
-        Console.WriteLine("Max hp: " + maxhp);
+        Console.WriteLine($"Current hp: {hp}/{maxhp}");
+        Console.WriteLine($"Current gold: {gold}");
         Console.ForegroundColor = ConsoleColor.White;
     }
 }
