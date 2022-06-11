@@ -166,6 +166,7 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(CurrentHpPtr, "double", "-1");
+            mem.WriteMemory(CurrentHpPtr, "double", "20");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Player killed.");
             Console.ForegroundColor = ConsoleColor.White;
