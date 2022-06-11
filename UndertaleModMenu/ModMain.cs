@@ -7,6 +7,7 @@ using Memory;
 
 class UndertaleMod
 {
+    Logging logging = new Logging();
     public string CurrentHpPtr = "Undertale.exe+00408950,44,10,D0,460"; // Current health pointer
     public string MaxHpPtr = "Undertale.exe+00408950,44,10,D0,450"; // Max health pointer
     
