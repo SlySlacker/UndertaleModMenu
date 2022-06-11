@@ -29,11 +29,17 @@ class UndertaleMod
                     input = input.Replace("sethp ", "");
                     SetHp(mem, input);
                 }
+
                 else if (input.Contains("setmaxhp "))
                 {
-                    input = input.Replace("setmaxhp ", "");
-                    SetMaxHp(mem, input);
+                    Help(mem);
                 }
+
+                else if (input.Contains("help"))
+                {
+                    Help(mem);
+                }
+
                 else if (input.Contains("readall"))
                 {
                     ReadValues(mem);
