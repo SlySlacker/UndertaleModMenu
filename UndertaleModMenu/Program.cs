@@ -15,7 +15,7 @@ class Program
             mem.OpenProcess(pid);
             UndertaleMod um = new UndertaleMod();
             Thread th = new Thread(() => um.Cons(mem));
-            th.Start();
+            th.Start(); 
             while (true)
             {
                 int bruh = mem.GetProcIdFromName("UNDERTALE");

@@ -9,7 +9,9 @@ class UndertaleMod
 {
     public string CurrentHpPtr = "Undertale.exe+00408950,44,10,D0,460"; // Current health pointer
     public string MaxHpPtr = "Undertale.exe+00408950,44,10,D0,450"; // Max health pointer
-    
+    public string EquWeapon = "Undertale.exe+19F1A5F0,44,10,700,120"; // Current Weapon 
+    public string Gold = "Undertale.exe+03F12420,0,44,10,392,440"; // Gold
+
     public void Cons(Mem mem)
     {
 
@@ -20,45 +22,135 @@ class UndertaleMod
             if (input != null)
             {
                 input = input.ToLower().Trim();
-                if(input.Contains("sethp ")){
+                if (input.Contains("sethp "))
+                {
                     input = input.Replace("sethp ", "");
                     SetHp(mem, input);
-                } else if(input.Contains("setmaxhp ")){
+                }
+                else if (input.Contains("setmaxhp "))
+                {
                     input = input.Replace("setmaxhp ", "");
                     SetMaxHp(mem, input);
-                } else if (input.Contains("readall")){
+                }
+                else if (input.Contains("readall"))
+                {
                     ReadValues(mem);
-                } else if (input.Contains("freezehp")){
+                }
+                else if (input.Contains("freezehp"))
+                {
                     FreezeHealth(mem);
-                } else if (input.Contains("unfreezehp")){ 
+                }
+                else if (input.Contains("unfreezehp"))
+                {
                     UnfreezeHealth(mem);
-                } else {
+                }
+                else if (input.Contains("kill"))
+                {
+                    Kill(mem);
+                }
+                else if (input.Contains("changeweapon"))
+                {
+                    SetWeap(mem, input);
+                }
+                else if (input.Contains("setgold"))
+                {
+                    SetGold(mem, input);
+                }
+                else if (input.Contains("help"))
+                {
+                    Help(mem);
+                }
+                else
+                {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Unknown command!");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-
+                { 
             }
+
+        }
         }
     }
+
+    public void Help(Mem mem)
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("UndertaleModMenu");
+            Console.WriteLine("By SlySlacker & VastraKai");;
+            Console.WriteLine("");
+            Console.WriteLine("Commands:");
+            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("sethp: Sets the current players HP.");
+            Console.WriteLine("This will reset if you SAVE or leave a battle.");
+            Console.WriteLine("Leaving a battle will slightly raise the HP if the user has some left over.");
+            Console.WriteLine("");
+            Console.WriteLine("setmaxhp: Sets the currents players max HP.");
+            Console.WriteLine("Does not reset if you save or gain LOVE.");
+            Console.WriteLine("Restarting the game will not keep this score.");
+            Console.WriteLine("");
+            Console.WriteLine("freezehealth/unfreezehealth: Freezes the health at its current state.");
+            Console.WriteLine("Nothing can change the value (except for restarting) unless you unfreeze it.");
+            Console.WriteLine("If an attack does more damage than the amount set, you will die.");
+            Console.WriteLine("");
+            Console.WriteLine("kill: Kills the player if you are in battle.");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("");
+            Console.WriteLine("WIP Commands:");
+            Console.WriteLine("");
+            Console.WriteLine("changeweapon, setgold");
+            Console.ForegroundColor = ConsoleColor.White;
+
+
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An unknown error has occured");
+        }
+    }
+
     public void SetHp(Mem mem, string Hp)
     {
         try
         {
             mem.WriteMemory(CurrentHpPtr, "double", Hp);
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been set to '" + Hp + "'");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Couldn't write memory: {ex}");
         }
     }
+
+    public void Kill(Mem mem)
+    {
+        try
+        {
+            mem.WriteMemory(CurrentHpPtr, "double", null);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Player Killed.");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Couldn't write memory: {ex}");
+        }
+    }
+
     public void FreezeHealth(Mem mem)
     {
         try
         {
             mem.FreezeValue(CurrentHpPtr, "double", mem.ReadDouble(CurrentHpPtr).ToString());
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been frozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
+            Console.ForegroundColor = ConsoleColor.White;
 
         }
         catch (Exception ex)
@@ -71,11 +163,13 @@ class UndertaleMod
         try
         {
             mem.UnfreezeValue(CurrentHpPtr);
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been unfrozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
+            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Unable to freeze health: " + ex);
+            Console.WriteLine($"Unable to unfreeze health: " + ex);
         }
     }
 
@@ -84,7 +178,39 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(MaxHpPtr, "double", Hp);
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("MaxHp has been set to '" + Hp + "'");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Couldn't write memory: {ex}");
+        }
+    }
+
+    public void SetGold(Mem mem, string GoldAmount)
+    {
+        try
+        {
+            mem.WriteMemory(Gold, "double", Gold);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Gold value changed. '"  + "'");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Couldn't write memory: {ex}");
+        }
+    }
+
+    public void SetWeap(Mem mem, string Weapon)
+    {
+        try
+        {
+            mem.WriteMemory(EquWeapon, "double", Weapon);
+            Console.ForegroundColor = ConsoleColor.Blue; ;
+            Console.WriteLine("Weapon has changed. " + "");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
@@ -95,8 +221,10 @@ class UndertaleMod
     {
         Double hp = mem.ReadDouble(CurrentHpPtr);
         Double maxhp = mem.ReadDouble(MaxHpPtr);
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Current hp: " + hp);
         Console.WriteLine("Max hp: " + maxhp);
+        Console.ForegroundColor = ConsoleColor.White;
 
     }
 }
