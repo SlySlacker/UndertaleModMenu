@@ -369,7 +369,6 @@ class UndertaleMod
         {
             mem.WriteMemory(MaxHpPtr, "double", Hp);
             mem.FreezeValue(MaxHpPtr, "double", mem.ReadDouble(MaxHpPtr).ToString());
-            Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("MaxHp has been set to '" + Hp + "'");
             Console.ForegroundColor = ConsoleColor.White;
