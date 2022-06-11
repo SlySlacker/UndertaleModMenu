@@ -7,6 +7,7 @@ using Memory;
 
 class UndertaleMod
 {
+    Logging logging = new Logging();
     public string CurrentHpPtr = "Undertale.exe+00408950,44,10,D0,460"; // Current health pointer
     public string MaxHpPtr = "Undertale.exe+00408950,44,10,D0,450"; // Max health pointer
     public string EquWeapon = "Undertale.exe+19F1A5F0,44,10,700,120"; // Current Weapon 
@@ -18,7 +19,6 @@ class UndertaleMod
         while (true)
         {
             string? input = Console.ReadLine();
-            Console.Title = input;
             if (input != null)
             {
                 input = input.ToLower().Trim();
@@ -43,25 +43,7 @@ class UndertaleMod
                 else if (input.Contains("unfreezehp"))
                 {
                     UnfreezeHealth(mem);
-                }
-                else if (input.Contains("kill"))
-                {
-                    Kill(mem);
-                }
-                else if (input.Contains("changeweapon"))
-                {
-                    SetWeap(mem, input);
-                }
-                else if (input.Contains("setgold"))
-                {
-                    SetGold(mem, input);
-                }
-                else if (input.Contains("help"))
-                {
-                    Help(mem);
-                }
-                else
-                {
+                } else {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Unknown command!");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -118,44 +100,24 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(CurrentHpPtr, "double", Hp);
-            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been set to '" + Hp + "'");
-            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Couldn't write memory: {ex}");
+            logging.logWrite($"Couldn't write memory: {ex}");
         }
     }
-
-    public void Kill(Mem mem)
-    {
-        try
-        {
-            mem.WriteMemory(CurrentHpPtr, "double", null);
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Player Killed.");
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Couldn't write memory: {ex}");
-        }
-    }
-
     public void FreezeHealth(Mem mem)
     {
         try
         {
             mem.FreezeValue(CurrentHpPtr, "double", mem.ReadDouble(CurrentHpPtr).ToString());
-            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been frozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
-            Console.ForegroundColor = ConsoleColor.White;
 
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Unable to freeze health: " + ex);
+            logging.logWrite($"Unable to freeze health: " + ex);
         }
     }
     public void UnfreezeHealth(Mem mem)
@@ -163,13 +125,11 @@ class UndertaleMod
         try
         {
             mem.UnfreezeValue(CurrentHpPtr);
-            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been unfrozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
-            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Unable to unfreeze health: " + ex);
+            Console.WriteLine($"Unable to freeze health: " + ex);
         }
     }
 
@@ -178,53 +138,19 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(MaxHpPtr, "double", Hp);
-            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("MaxHp has been set to '" + Hp + "'");
-            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Couldn't write memory: {ex}");
-        }
-    }
-
-    public void SetGold(Mem mem, string GoldAmount)
-    {
-        try
-        {
-            mem.WriteMemory(Gold, "double", Gold);
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Gold value changed. '"  + "'");
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Couldn't write memory: {ex}");
-        }
-    }
-
-    public void SetWeap(Mem mem, string Weapon)
-    {
-        try
-        {
-            mem.WriteMemory(EquWeapon, "double", Weapon);
-            Console.ForegroundColor = ConsoleColor.Blue; ;
-            Console.WriteLine("Weapon has changed. " + "");
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Couldn't write memory: {ex}");
+            logging.logWrite($"Couldn't write memory: {ex}");
         }
     }
     public void ReadValues(Mem mem)
     {
         Double hp = mem.ReadDouble(CurrentHpPtr);
         Double maxhp = mem.ReadDouble(MaxHpPtr);
-        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Current hp: " + hp);
         Console.WriteLine("Max hp: " + maxhp);
-        Console.ForegroundColor = ConsoleColor.White;
 
     }
 }

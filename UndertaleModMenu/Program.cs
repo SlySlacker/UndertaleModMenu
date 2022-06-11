@@ -7,6 +7,8 @@ class Program
 
     static void Main(string[] args)
     {
+        Logging logging = new Logging();
+        logging.configConsole();
         Mem mem = new Mem();
         try
         {
