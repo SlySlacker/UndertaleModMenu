@@ -321,6 +321,7 @@ class UndertaleMod
         {
             mem.WriteMemory(EnemyOnePtr, "double", null);
             mem.WriteMemory(EnemyTwoPtr, "double", null);
+            mem.WriteMemory(EnemyThreePtr, "double", null);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Made all enemies on screen 1 hit.");
             Console.ForegroundColor = ConsoleColor.White;
