@@ -11,7 +11,7 @@ class UndertaleMod
     public void killProc() => Process.GetCurrentProcess().Kill();
     public void blank() => Console.WriteLine("");
     Logging l = new Logging();
-    // all of these are doubles for some shitty reason
+    
     public string CurrentHpPtr = "Undertale.exe+00408950,44,10,D0,460";                // Current health pointer
     public string MaxHpPtr = "Undertale.exe+00408950,44,10,D0,450";                    // Max health pointer
     public string EquWeapon = "Undertale.exe+19F1A5F0,44,10,700,120";                  // Current Weapon 
@@ -107,6 +107,10 @@ class UndertaleMod
                 {
                     OneHit(mem);
                 }
+                else if (input == "crash")
+                {
+                    Crash(mem);
+                }
                 else if (input.Contains("changename "))
                 {
                     inputUpper = inputUpper.Replace("changename ", "");
@@ -165,6 +169,9 @@ class UndertaleMod
             Console.WriteLine("");
             Console.WriteLine("changename: Sets the Players name.");
             Console.WriteLine("Saving in game will make the name stick.");
+            Console.WriteLine("Be careful! If you make it too long you will have to fix it manually, this is at least 50 characters though.");
+            Console.WriteLine("");
+            Console.WriteLine("crash: Crashes the game, anything unsaved will be lost.");
             Console.WriteLine("");
             Console.WriteLine("info: Shows some in-game info");
             Console.WriteLine("");
@@ -212,11 +219,10 @@ class UndertaleMod
 
             if (Debugger.IsAttached)
             {
-                l.logWrite(namehex.Length.ToString());
-                l.logWrite(namehex);
+                l.logWrite("ex string length:" + namehex.Length.ToString());
+                l.logWrite("Hex: " + namehex);
             }
 
-            else
             mem.WriteMemory(NamePtr, "bytes", "000000000000");
             mem.WriteMemory(NamePtr, "bytes", namehex);
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -229,7 +235,23 @@ class UndertaleMod
             l.logWrite($"Couldn't write memory: {ex}");
         }
     }
+    public void Crash(Mem mem)
+    {
+        try
+        {
 
+            mem.WriteMemory(NamePtr, "string", "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            l.logWrite($"Couldn't write memory: {ex}");
+        }
+        killProc();
+    }
+    
     public void SetExp(Mem mem, string Exp)
     {
         try
