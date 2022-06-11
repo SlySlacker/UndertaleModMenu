@@ -7,8 +7,8 @@ class Program
 
     static void Main(string[] args)
     {
-        Logging logging = new Logging();
-        logging.configConsole();
+        Logging log = new Logging();
+        log.configConsole();
         Mem mem = new Mem();
         try
         {
@@ -27,7 +27,7 @@ class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Failed to open process UNDERTALE: " + ex);
+            log.logWrite("Failed to open process UNDERTALE: " + ex);
             Process.GetCurrentProcess().Kill();
         }
     }
