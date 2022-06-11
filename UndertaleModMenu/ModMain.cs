@@ -17,7 +17,6 @@ class UndertaleMod
         while (true)
         {
             string? input = Console.ReadLine();
-            Console.Title = input;
             if (input != null)
             {
                 input = input.ToLower().Trim();
@@ -35,7 +34,7 @@ class UndertaleMod
                     UnfreezeHealth(mem);
                 } else {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Unknown command!");
+                    logging.logWrite("Unknown command!");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
 
@@ -47,24 +46,25 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(CurrentHpPtr, "double", Hp);
-            Console.WriteLine("Hp has been set to '" + Hp + "'");
+            logging.logWrite("Hp has been set to '" + Hp + "'");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Couldn't write memory: {ex}");
+            logging.logWrite($"Couldn't write memory: {ex}");
         }
     }
+    public bool HealthFrozen = false;
     public void FreezeHealth(Mem mem)
     {
         try
         {
             mem.FreezeValue(CurrentHpPtr, "double", mem.ReadDouble(CurrentHpPtr).ToString());
-            Console.WriteLine("Hp has been frozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
-
+            logging.logWrite("Hp has been frozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
+            HealthFrozen = true;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Unable to freeze health: " + ex);
+            logging.logWrite($"Unable to freeze health: " + ex);
         }
     }
     public void UnfreezeHealth(Mem mem)
@@ -72,11 +72,12 @@ class UndertaleMod
         try
         {
             mem.UnfreezeValue(CurrentHpPtr);
-            Console.WriteLine("Hp has been unfrozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
+            logging.logWrite("Hp has been unfrozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
+            HealthFrozen = false;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Unable to freeze health: " + ex);
+            logging.logWrite($"Unable to freeze health: " + ex);
         }
     }
 
@@ -85,19 +86,26 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(MaxHpPtr, "double", Hp);
-            Console.WriteLine("MaxHp has been set to '" + Hp + "'");
+            logging.logWrite("MaxHp has been set to '" + Hp + "'");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Couldn't write memory: {ex}");
+            logging.logWrite($"Couldn't write memory: {ex}");
         }
     }
     public void ReadValues(Mem mem)
     {
         Double hp = mem.ReadDouble(CurrentHpPtr);
         Double maxhp = mem.ReadDouble(MaxHpPtr);
-        Console.WriteLine("Current hp: " + hp);
-        Console.WriteLine("Max hp: " + maxhp);
+        if (HealthFrozen)
+        {
+            logging.logWrite("Current hp: '" + hp + "' (Frozen)");
+        }
+        else
+        {
+            logging.logWrite("Current hp: '" + hp + "'");
+        }
+        logging.logWrite("Max hp: '" + maxhp + "'");
 
     }
 }
