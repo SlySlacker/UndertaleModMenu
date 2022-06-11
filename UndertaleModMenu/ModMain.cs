@@ -33,9 +33,7 @@ class UndertaleMod
                 } else if (input.Contains("unfreezehp")){ 
                     UnfreezeHealth(mem);
                 } else {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    logging.logWrite("Unknown command!");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    logging.logWrite(logging.escColor("255","0","0") + "Unknown command!" + logging.escColor());
                 }
 
             }
