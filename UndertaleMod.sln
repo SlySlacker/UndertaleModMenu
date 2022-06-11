@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndertaleFunny1", "UndertaleFunny1\UndertaleFunny1.csproj", "{BE2E6065-EE79-4B68-A617-C7427802B52A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UndertaleModMenu", "UndertaleFunny1\UndertaleModMenu.csproj", "{BE2E6065-EE79-4B68-A617-C7427802B52A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
