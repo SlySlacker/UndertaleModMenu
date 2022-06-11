@@ -13,7 +13,7 @@ class UndertaleMod
     public string CurrentHpPtr = "Undertale.exe+00408950,44,10,D0,460"; // Current health pointer
     public string MaxHpPtr = "Undertale.exe+00408950,44,10,D0,450"; // Max health pointer
     public string EquWeapon = "Undertale.exe+19F1A5F0,44,10,700,120"; // Current Weapon 
-    public string Gold = "Undertale.exe+03F12420,0,44,10,392,440"; // Gold
+    public string CurrentGold = "Undertale.exe+003F9F44,44,10,364,400"; // Gold
 
     public void Cons(Mem mem)
     {
@@ -33,6 +33,10 @@ class UndertaleMod
                 else if (input.Contains("setmaxhp "))
                 {
                     Help(mem);
+                }
+                else if (input.Contains("setgold"))
+                {
+                    SetGold(mem, input);
                 }
 
                 else if (input.Contains("kill"))
@@ -125,6 +129,22 @@ class UndertaleMod
             logging.logWrite($"Couldn't write memory: {ex}");
         }
     }
+
+    public void SetGold(Mem mem, string Gold)
+    {
+        try
+        {
+            mem.WriteMemory(CurrentGold, "double", Gold);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Gold has been set to '" + Gold + "'");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            logging.logWrite($"Couldn't write memory: {ex}");
+        }
+    }
+
     public void FreezeHealth(Mem mem)
     {
         try
@@ -175,6 +195,7 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(MaxHpPtr, "double", Hp);
+            mem.FreezeValue(CurrentHpPtr, "double", mem.ReadDouble(CurrentHpPtr).ToString());
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("MaxHp has been set to '" + Hp + "'");
             Console.ForegroundColor = ConsoleColor.White;
