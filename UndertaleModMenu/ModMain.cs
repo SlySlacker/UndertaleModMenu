@@ -13,7 +13,7 @@ class UndertaleMod
     public string CurrentHpPtr = "Undertale.exe+00408950,44,10,D0,460"; // Current health pointer
     public string MaxHpPtr = "Undertale.exe+00408950,44,10,D0,450"; // Max health pointer
     public string EquWeapon = "Undertale.exe+19F1A5F0,44,10,700,120"; // Current Weapon 
-    public string CurrentGold = "Undertale.exe+003F9F44,44,10,364,400"; // Gold
+    public string CurrentGold = "Undertale.exe+003F9F44,0,44,10,364,400"; // Gold
 
     public void Cons(Mem mem)
     {
@@ -219,4 +219,3 @@ class UndertaleMod
     }
 }
 
-//rasazystazzy12
