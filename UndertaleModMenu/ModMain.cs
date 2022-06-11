@@ -51,15 +51,17 @@ class UndertaleMod
                 else if (input.Contains("unfreezehp"))
                 {
                     UnfreezeHealth(mem);
-                } else {
+                }
+                else if (input == "help")
+                {
+                    Help(mem);
+                } else
+                {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Unknown command!");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-                { 
             }
-
-        }
         }
     }
 
