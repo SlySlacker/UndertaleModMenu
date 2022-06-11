@@ -165,9 +165,9 @@ class UndertaleMod
     {
         try
         {
-            mem.WriteMemory(CurrentHpPtr, "double", null);
+            mem.WriteMemory(CurrentHpPtr, "double", "-1");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Player Killed.");
+            Console.WriteLine("Player killed.");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -176,7 +176,7 @@ class UndertaleMod
 
 }
 
-            public void UnfreezeHealth(Mem mem)
+    public void UnfreezeHealth(Mem mem)
     {
         try
         {
