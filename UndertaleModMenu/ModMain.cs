@@ -167,7 +167,6 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(CurrentHpPtr, "double", "-1");
-            mem.WriteMemory(CurrentHpPtr, "double", "20");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Player killed.");
             Console.ForegroundColor = ConsoleColor.White;
@@ -198,7 +197,10 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(MaxHpPtr, "double", Hp);
+            mem.FreezeValue(MaxHpPtr, "double", mem.ReadDouble(MaxHpPtr).ToString());
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("MaxHp has been set to '" + Hp + "'");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
