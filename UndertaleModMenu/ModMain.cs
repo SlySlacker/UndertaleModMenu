@@ -35,6 +35,11 @@ class UndertaleMod
                     Help(mem);
                 }
 
+                else if (input.Contains("kill"))
+                {
+                    Kill(mem);
+                }
+
                 else if (input.Contains("help"))
                 {
                     Help(mem);
@@ -55,6 +60,7 @@ class UndertaleMod
                 else if (input == "help")
                 {
                     Help(mem);
+
                 } else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -71,7 +77,7 @@ class UndertaleMod
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("UndertaleModMenu");
-            Console.WriteLine("By SlySlacker & VastraKai");;
+            Console.WriteLine("By SlySlacker & VastraKai"); ;
             Console.WriteLine("");
             Console.WriteLine("Commands:");
             Console.WriteLine("");
@@ -110,7 +116,9 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(CurrentHpPtr, "double", Hp);
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been set to '" + Hp + "'");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
@@ -122,7 +130,9 @@ class UndertaleMod
         try
         {
             mem.FreezeValue(CurrentHpPtr, "double", mem.ReadDouble(CurrentHpPtr).ToString());
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been frozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
+            Console.ForegroundColor = ConsoleColor.White;
 
         }
         catch (Exception ex)
@@ -130,12 +140,29 @@ class UndertaleMod
             logging.logWrite($"Unable to freeze health: " + ex);
         }
     }
-    public void UnfreezeHealth(Mem mem)
+    public void Kill(Mem mem)
+    {
+        try
+        {
+            mem.WriteMemory(CurrentHpPtr, "double", null);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Player Killed.");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        catch { }
+
+
+}
+
+            public void UnfreezeHealth(Mem mem)
     {
         try
         {
             mem.UnfreezeValue(CurrentHpPtr);
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been unfrozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
+            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
@@ -148,7 +175,9 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(MaxHpPtr, "double", Hp);
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("MaxHp has been set to '" + Hp + "'");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
@@ -159,8 +188,9 @@ class UndertaleMod
     {
         Double hp = mem.ReadDouble(CurrentHpPtr);
         Double maxhp = mem.ReadDouble(MaxHpPtr);
+        Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine("Current hp: " + hp);
         Console.WriteLine("Max hp: " + maxhp);
-
+        Console.ForegroundColor = ConsoleColor.White;
     }
 }
