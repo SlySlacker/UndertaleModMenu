@@ -21,6 +21,7 @@ class UndertaleMod
     public string ExpPtr = "Undertale.exe+003F9F44,0,44,10,364,3F0";                   // EXP pointer
     public string EnemyOnePtr = "Undertale.exe+004099B4,48,8,50,14,5C0";               // Enemy One pointer
     public string EnemyTwoPtr = "Undertale.exe+004099B4,48,8,50,14,5D0";               // Enemy Two pointer
+    public string EnemyThreePtr = "Undertale.exe+004099B4,48,8,50,14,5E0";             // Enemy Three pointer
     public string RoomPtr = "Undertale.exe+618EA0";                                    // Room Pointer
     public string NamePtr = "Undertale.exe+003FC5EC,0,14,0,8,18,10,2B0";               // Name Pointer
 
