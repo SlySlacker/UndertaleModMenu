@@ -64,13 +64,11 @@ public class Logging
     /// <param name="logtype">The log type to use for the message. (E.x. "INFO", "WARN", etc.)</param>
     public void logWrite(string str, string logtype = "INFO")   // self explanatory  
     {
-        str = str.Replace("\n", "\n" + escColor("0", "255", "0") + DateTime.Now +
-            escColor("0", "150", "255") + ": " +
+        str = str.Replace("\n", "\n" +
+            
             escColor("255", "145", "0") + logtype.ToUpper() +
             escColor("0", "255", "100") + " | " + escColor()); // so that new lines in the same don't lack the formatting
         Console.WriteLine(
-            escColor("0", "255", "0") + DateTime.Now +
-            escColor("0", "150", "255") + ": " +
             escColor("255", "145", "0") + logtype.ToUpper() +
             escColor("0", "255", "100") + " | " +
             escColor() + str);
