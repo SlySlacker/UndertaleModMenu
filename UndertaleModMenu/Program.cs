@@ -27,7 +27,7 @@ class Program
         }
         catch (Exception ex)
         {
-            log.logWrite("Failed to open process UNDERTALE: " + ex);
+            log.logWrite("Failed: " + ex);
             Process.GetCurrentProcess().Kill();
         }
     }

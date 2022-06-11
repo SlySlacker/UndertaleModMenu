@@ -10,11 +10,16 @@ class UndertaleMod
 {
     public void killProc() => Process.GetCurrentProcess().Kill();
     Logging l = new Logging();
+    // all of these are doubles for some shitty reason
     public string CurrentHpPtr = "Undertale.exe+00408950,44,10,D0,460"; // Current health pointer
     public string MaxHpPtr = "Undertale.exe+00408950,44,10,D0,450"; // Max health pointer
     public string EquWeapon = "Undertale.exe+19F1A5F0,44,10,700,120"; // Current Weapon 
-    public string CurrentGold = "Undertale.exe+003F9F44,0,44,10,364,400"; // Gold
-    public string CurrentLove = "Undertale.exe+003F9F44,0,44,10,364,3E0"; // Love 
+    public string CurrentGoldPtr = "Undertale.exe+003F9F44,0,44,10,364,400"; // Gold
+    public string CurrentLovePtr = "Undertale.exe+003F9F44,0,44,10,364,3E0"; // Love 
+    public string isInBattle = "Undertale.exe+003F9F44,0,44,10,1A8,30"; // Battle Check
+    public string ExpPtr = "Undertale.exe+003F9F44,0,44,10,364,3F0"; // EXP
+    public string EnemyOnePtr = "Undertale.exe+004099B4,48,8,50,14,5C0"; // Enemy One pointer
+    public string EnemyTwoPtr = "Undertale.exe+004099B4,48,8,50,14,5D0"; // Enemy Two pointer
 
     public void Cons(Mem mem)
     {
@@ -46,7 +51,7 @@ class UndertaleMod
                     input = input.Replace("setgold ", "");
                     SetGold(mem, input);
                 }
-                else if (input.Contains("kill"))
+                else if (input == "kill")
                 {
                     Kill(mem);
                 }
@@ -54,9 +59,14 @@ class UndertaleMod
                 {
                     Help(mem);
                 }
-                else if (input.Contains("readall"))
+                else if(input == "info")
                 {
                     ReadValues(mem);
+                }
+                else if (input.Contains("setexp"))
+                {
+                    input = input.Replace("setexp ", "");
+                    SetExp(mem, input);
                 }
                 else if (input.Contains("freezehp"))
                 {
@@ -69,6 +79,10 @@ class UndertaleMod
                  else if (input.Contains("unfreezehp"))
                 {
                     UnfreezeHealth(mem);
+                }
+                else if (input == "onehit")
+                {
+                    OneHit(mem);
                 }
 
                 else if (input == "help")
@@ -89,7 +103,8 @@ class UndertaleMod
     {
         try
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("UndertaleModMenu");
             Console.WriteLine("By SlySlacker & VastraKai"); ;
             Console.WriteLine("");
@@ -103,6 +118,9 @@ class UndertaleMod
             Console.WriteLine("setmaxhp: Sets the currents players max HP.");
             Console.WriteLine("Does not reset if you save or gain LOVE.");
             Console.WriteLine("Restarting the game will not keep this score.");
+            Console.WriteLine("");
+            Console.WriteLine("onehit: Sets all enemies on screen to 1hp");
+            Console.WriteLine("Works on bosses too, excluding Sans. You can't hit him anyway.");
             Console.WriteLine("");
             Console.WriteLine("freezehealth/unfreezehealth: Freezes the health at its current state.");
             Console.WriteLine("Nothing can change the value (except for restarting) unless you unfreeze it.");
@@ -122,6 +140,7 @@ class UndertaleMod
             Console.WriteLine("WIP Commands:");
             Console.WriteLine("");
             Console.WriteLine("changeweapon");
+            Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
@@ -150,13 +169,28 @@ class UndertaleMod
         }
     }
 
+    public void SetExp(Mem mem, string Exp)
+    {
+        try
+        {
+            mem.WriteMemory(ExpPtr, "double", Exp);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("EXP has been set to '" + Exp + "'");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            l.logWrite($"Couldn't write memory: {ex}");
+        }
+    }
+
     public void SetLove(Mem mem, string Love)
     {
         try
         {
-            mem.WriteMemory(CurrentLove, "double", Love);
+            mem.WriteMemory(CurrentLovePtr, "double", Love);
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Love has been set to '" + Love + "'");
+            Console.WriteLine("LOVE has been set to '" + Love + "'");
             Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
@@ -170,7 +204,7 @@ class UndertaleMod
     {
         try
         {
-            mem.WriteMemory(CurrentGold, "double", Gold);
+            mem.WriteMemory(CurrentGoldPtr, "double", Gold);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Gold has been set to '" + Gold + "'");
             Console.ForegroundColor = ConsoleColor.White;
@@ -196,6 +230,22 @@ class UndertaleMod
             l.logWrite($"Unable to freeze health: " + ex);
         }
     }
+    public void OneHit(Mem mem)
+    {
+        try
+        {
+            mem.WriteMemory(EnemyOnePtr, "double", null);
+            mem.WriteMemory(EnemyTwoPtr, "double", null);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Made all enemies on screen 1 hit.");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        catch { }
+
+
+}
+
     public void Kill(Mem mem)
     {
         try
@@ -205,11 +255,13 @@ class UndertaleMod
             Console.WriteLine("Player killed.");
             Console.ForegroundColor = ConsoleColor.White;
         }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Unable to kill: " + ex);
+        }
 
-        catch { }
 
-
-}
+    }
 
     public void UnfreezeHealth(Mem mem)
     {
@@ -246,14 +298,20 @@ class UndertaleMod
     {
         Double hp = mem.ReadDouble(CurrentHpPtr);
         Double maxhp = mem.ReadDouble(MaxHpPtr);
-        Double gold = mem.ReadDouble(CurrentGold);
-        Double love = mem.ReadDouble(CurrentLove);
+        Double gold = mem.ReadDouble(CurrentGoldPtr);
+        Double love = mem.ReadDouble(CurrentLovePtr);
         Double weapon = mem.ReadDouble(EquWeapon);
+        Double battle = mem.ReadDouble(isInBattle);
+        Double exp = mem.ReadDouble(ExpPtr);
+        bool isBattling = false;
+        if(battle > 0) isBattling = true;
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine($"Current hp: {hp}/{maxhp}");
         Console.WriteLine($"Current gold: {gold}");
         //Console.WriteLine($"Current weapon: {weapon}");
         Console.WriteLine($"Current love: {love}");
+        Console.WriteLine($"Current EXP: {exp}");
+        Console.WriteLine($"Is battling: {isBattling}");
         Console.ForegroundColor = ConsoleColor.White;
     }
 }
