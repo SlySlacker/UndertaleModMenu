@@ -60,6 +60,7 @@ class UndertaleMod
                 {
                     UnfreezeHealth(mem);
                 }
+
                 else if (input == "help")
                 {
                     Help(mem);
@@ -196,16 +197,14 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(MaxHpPtr, "double", Hp);
-            mem.FreezeValue(CurrentHpPtr, "double", mem.ReadDouble(CurrentHpPtr).ToString());
-            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("MaxHp has been set to '" + Hp + "'");
-            Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
-            logging.logWrite($"Couldn't write memory: {ex}");
+            Console.WriteLine($"Couldn't write memory: {ex}");
         }
     }
+
     public void ReadValues(Mem mem)
     {
         Double hp = mem.ReadDouble(CurrentHpPtr);
