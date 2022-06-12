@@ -603,6 +603,8 @@ class UndertaleMod
         Double i6 = mem.ReadDouble(Item6);
         Double i7 = mem.ReadDouble(Item7);
         Double i8 = mem.ReadDouble(Item8);
+        Double def = mem.ReadDouble(ArmorPtr);
+        Double damage = mem.ReadDouble(DamagePtr);
 
         uint room = mem.ReadUInt(RoomPtr);
         string name = mem.ReadString(NamePtr);
@@ -618,7 +620,9 @@ class UndertaleMod
         Console.WriteLine($"");
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"Current Weapon ID: {weapon}");
+        Console.WriteLine($"Current Damage Value: {damage}");
         Console.WriteLine($"Current Armor ID: {armor}");
+        Console.WriteLine($"Current Defense Value: {def}");
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine($"Current LOVE: {love}");
         Console.WriteLine($"Current EXP: {exp}");
