@@ -23,6 +23,9 @@ class UndertaleMod
     public string EnemyOnePtr = "Undertale.exe+004099B4,48,8,50,14,5C0";               // Enemy One pointer
     public string EnemyTwoPtr = "Undertale.exe+004099B4,48,8,50,14,5D0";               // Enemy Two pointer
     public string EnemyThreePtr = "Undertale.exe+004099B4,48,8,50,14,5E0";             // Enemy Three pointer
+    public string BAKEnemyOnePtr = "Undertale.exe+00061FC0,4,B40";                     // Enemy One pointer backup
+    public string BAKEnemyTwoPtr = "Undertale.exe+00218418,4,D0";                      // Enemy Two pointer backup
+    public string BAKEnemyThreePtr = "Undertale.exe+00061FC0,5,B60";                   // Enemy Three pointer backup (i have no idea if this works)
     public string RoomPtr = "Undertale.exe+618EA0";                                    // Room Pointer
     public string NamePtr = "Undertale.exe+003FC5EC,0,14,0,8,18,10,2B0";               // Name Pointer
     public string Item1 = "Undertale.exe+004099B4,330,8,50,18,300";                    // Slot 1
@@ -33,6 +36,9 @@ class UndertaleMod
     public string Item6 = "Undertale.exe+004099B4,330,8,50,18,350";                    // Slot 6
     public string Item7 = "Undertale.exe+004099B4,330,8,50,18,360";                    // Slot 7
     public string Item8 = "Undertale.exe+004099B4,330,8,50,18,370";                    // Slot 8
+    public string DamagePtr = "Undertale.exe+003B41C0,18,AB0";                         // Damage Pointer
+    public string ArmorPtr = "Undertale.exe+000E416C,8F4,784,3AC,230";                 // Armor Pointer
+
     public void Cons(Mem mem)
     {
 
@@ -74,6 +80,16 @@ class UndertaleMod
                     input = input.Replace("setmaxhp ", "");
                     SetMaxHp(mem, input);
                 }
+                else if (input.Contains("setdamage "))
+                {
+                    input = input.Replace("setdamage ", "");
+                    SetDamage(mem, input);
+                }
+                else if (input.Contains("setdefense "))
+                {
+                    input = input.Replace("setdefense ", "");
+                    SetDefense(mem, input);
+                }
                 else if (input.Contains("setlove "))
                 {
                     input = input.Replace("setlove ", "");
@@ -102,6 +118,10 @@ class UndertaleMod
                 else if (input == "kill")
                 {
                     Kill(mem);
+                }
+                else if (input == "commands")
+                {
+                    Commands(mem);
                 }
                 else if (input.Contains("help"))
                 {
@@ -156,6 +176,8 @@ class UndertaleMod
         }
     }
 
+
+
     public void Help(Mem mem)
     {
         try
@@ -165,6 +187,10 @@ class UndertaleMod
             Console.WriteLine("UndertaleModMenu");
             Console.WriteLine("By SlySlacker & VastraKai"); ;
             Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("For just a command list, type: command");
+            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Commands:");
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Green;
@@ -208,6 +234,12 @@ class UndertaleMod
             Console.WriteLine("You can use this to actually equip weapons/armor i.e setitem 1 temy_armor.");
             Console.WriteLine("Saving will make the change persist.");
             Console.WriteLine("");
+            Console.WriteLine("setdamage <value>: sets the damage value.");
+            Console.WriteLine("Saving will make the change persist.");
+            Console.WriteLine("");
+            Console.WriteLine("setdefense <value>: sets the defense value.");
+            Console.WriteLine("Saving will make the change persist.");
+            Console.WriteLine("");
 
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -219,6 +251,39 @@ class UndertaleMod
                 Console.WriteLine("An unknown error has occured");
             }
 
+        }
+    }
+
+    public void Commands(Mem mem)
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Commands:");
+            Console.WriteLine("");
+            Console.WriteLine("type help for information about the commands.");
+            Console.WriteLine("");
+            Console.WriteLine("sethp <value>");
+            Console.WriteLine("setmaxhp <value>");
+            Console.WriteLine("onehit");
+            Console.WriteLine("freezehealth");
+            Console.WriteLine("unfreezehealth");
+            Console.WriteLine("kill");
+            Console.WriteLine("setlove <value>");
+            Console.WriteLine("setgold <value>");
+            Console.WriteLine("changename <name>");
+            Console.WriteLine("crash");
+            Console.WriteLine("info");
+            Console.WriteLine("setweapon <item>");
+            Console.WriteLine("setarmor <item>");
+            Console.WriteLine("setitem <slot> <item>");
+            Console.WriteLine("setdamage <value>");
+            Console.WriteLine("setdefense <value>");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            l.logWrite($"Couldn't write memory: {ex}");
         }
     }
 
@@ -237,6 +302,34 @@ class UndertaleMod
         }
     }
 
+    public void SetDamage(Mem mem, string damage)
+    {
+        try
+        {
+            mem.WriteMemory(DamagePtr, "double", damage);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Damage has been set to '" + damage + "'");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            l.logWrite($"Couldn't write memory: {ex}");
+        }
+    }
+    public void SetDefense(Mem mem, string armor)
+    {
+        try
+        {
+            mem.WriteMemory(ArmorPtr, "double", armor);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Defense has been set to '" + armor + "'");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        catch (Exception ex)
+        {
+            l.logWrite($"Couldn't write memory: {ex}");
+        }
+    }
     public void SetName(Mem mem, string Name)
     {
         try
@@ -414,6 +507,9 @@ class UndertaleMod
             mem.WriteMemory(EnemyOnePtr, "double", "1");
             mem.WriteMemory(EnemyTwoPtr, "double", "1");
             mem.WriteMemory(EnemyThreePtr, "double", "1");
+            mem.WriteMemory(BAKEnemyOnePtr, "double", "1");
+            mem.WriteMemory(BAKEnemyTwoPtr, "double", "1");
+            mem.WriteMemory(BAKEnemyThreePtr, "double", "1");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Made all enemies on screen 1 hit.");
             Console.ForegroundColor = ConsoleColor.White;
