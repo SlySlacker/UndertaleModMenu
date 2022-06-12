@@ -1,0 +1,74 @@
+Use these in setarmor, setweapon, and setitem.
+A "+" at the end means its a valid weapon, a "-" at the end means its a valid armor.
+Sly is epic :tr
+
+(use like setitem 3 5, or setitem 3 rock_candy)
+
+Remember, put the items in your item slot and equip them if you actually want to use them as valid armor/weapons.
+
+ID - Name
+
+1: monster_candy
+2: croquet_roll
+3: stick +
+4: bandage -
+5: rock_candy
+6: pumpkin_rings
+7: spider_donut
+8: stoic_onion
+9: ghost_fruit
+10: spider_cider
+11: butterscotch_pie
+12: faded_ribbon -
+13: toy_knife +
+14: tough_glove +
+15: manly_bandanna -
+16: snowman_piece
+17: nice_cream
+18: puppydough_icecream
+19: bisicle
+20: unisicle
+21: cinnamon_bun
+22: temmie_flakes
+23: abandoned_quiche
+24: old_tutu -
+25: ballet_shoes +
+26: punch_card
+27: annoying_dog
+28: dog_salad
+29: dog_residue1
+30: dog_residue2
+31: dog_residue3
+32: dog_residue4
+33: dog_residue5
+34: dog_residue6
+35: astronaut_food
+36: instant_noodles
+37: crab_apple
+38: hot_dog...?
+39: hot_cat
+40: glamburger
+41: sea_tea
+42: starfait
+43: legendary_hero
+44: cloudy_glasses -
+45: torn_notebook +
+46: stained_apron -
+47: burnt_pan +
+48: cowboy_hat -
+49: empty_gun +
+50: heart_locket -
+51: worn_dagger +
+52: real_knife +
+53: the_locket -
+54: bad_memory
+55: dream
+56: undynes_letter
+57: undynes_letter_ex
+58: potato_chisps
+59: junk_food
+60: mystery_key
+61: face_steak
+62: hush_puppy
+63: snail_pie
+64: temy_armor -
