@@ -38,6 +38,8 @@ class UndertaleMod
     public string Item8 = "Undertale.exe+004099B4,330,8,50,18,370";                    // Slot 8
     public string DamagePtr = "Undertale.exe+003B41C0,18,AB0";                         // Damage Pointer
     public string ArmorPtr = "Undertale.exe+000E416C,8F4,784,3AC,230";                 // Armor Pointer
+    public string KillsPtr = "Undertale.exe+0040894C,44,10,97C,0";                     // Kills Pointer
+
 
     public void Cons(Mem mem)
     {
@@ -605,11 +607,18 @@ class UndertaleMod
         Double i8 = mem.ReadDouble(Item8);
         Double def = mem.ReadDouble(ArmorPtr);
         Double damage = mem.ReadDouble(DamagePtr);
+        Double kills = mem.ReadDouble(KillsPtr);
+
 
         uint room = mem.ReadUInt(RoomPtr);
         string name = mem.ReadString(NamePtr);
         bool isBattling = false;
         if (battle > 0) isBattling = true;
+       
+        bool GenoComp = false;
+        if (kills > 105) GenoComp = true;
+
+
         Console.WriteLine("");
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine($"Player Name: {name}");
@@ -624,8 +633,12 @@ class UndertaleMod
         Console.WriteLine($"Current Armor ID: {armor}");
         Console.WriteLine($"Current Defense Value: {def}");
         Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine($"");
         Console.WriteLine($"Current LOVE: {love}");
         Console.WriteLine($"Current EXP: {exp}");
+        Console.WriteLine($"Kills: {kills}");
+        Console.WriteLine($"");
+        Console.WriteLine($"Genocide Complete: {GenoComp}");
         Console.WriteLine($"");
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"Current gold: {gold}");
