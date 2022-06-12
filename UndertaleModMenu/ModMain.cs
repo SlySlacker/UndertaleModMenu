@@ -176,13 +176,9 @@ class UndertaleMod
             Console.WriteLine("Does not reset if you save or gain LOVE.");
             Console.WriteLine("Restarting the game will not keep this score.");
             Console.WriteLine("");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("--- Currently being debugged, May not work ---");
             Console.WriteLine("onehit: Sets all enemies on screen to 1hp");
             Console.WriteLine("Works on some bosses, too.");
-            Console.WriteLine("--- Currently being debugged, May not work ---");
             Console.WriteLine("");
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("freezehealth/unfreezehealth: Freezes the health at its current state.");
             Console.WriteLine("Nothing can change the value (except for restarting) unless you unfreeze it.");
             Console.WriteLine("If an attack does more damage than the amount set, you will die.");
