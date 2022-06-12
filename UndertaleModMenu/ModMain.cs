@@ -128,7 +128,7 @@ class UndertaleMod
                 {
                     UnfreezeHealth(mem);
                 }
-                else if (input == "onehit")
+               else if (input == "onehit")
                 {
                     OneHit(mem);
                 }
@@ -176,9 +176,13 @@ class UndertaleMod
             Console.WriteLine("Does not reset if you save or gain LOVE.");
             Console.WriteLine("Restarting the game will not keep this score.");
             Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("--- Currently being debugged, May not work ---");
             Console.WriteLine("onehit: Sets all enemies on screen to 1hp");
-            Console.WriteLine("Works on bosses too, excluding Sans. You can't hit him anyway.");
+            Console.WriteLine("Works on some bosses, too.");
+            Console.WriteLine("--- Currently being debugged, May not work ---");
             Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("freezehealth/unfreezehealth: Freezes the health at its current state.");
             Console.WriteLine("Nothing can change the value (except for restarting) unless you unfreeze it.");
             Console.WriteLine("If an attack does more damage than the amount set, you will die.");
@@ -411,9 +415,9 @@ class UndertaleMod
     {
         try
         {
-            mem.WriteMemory(EnemyOnePtr, "double", null);
-            mem.WriteMemory(EnemyTwoPtr, "double", null);
-            mem.WriteMemory(EnemyThreePtr, "double", null);
+            mem.WriteMemory(EnemyOnePtr, "double", "1");
+            mem.WriteMemory(EnemyTwoPtr, "double", "1");
+            mem.WriteMemory(EnemyThreePtr, "double", "1");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Made all enemies on screen 1 hit.");
             Console.ForegroundColor = ConsoleColor.White;
