@@ -8,6 +8,7 @@ using Memory;
 
 class UndertaleMod
 {
+    bool NoClipTog = false;
     public void killProc() => Process.GetCurrentProcess().Kill();
     public void blank() => Console.WriteLine("");
     Logging l = new Logging();
@@ -39,6 +40,9 @@ class UndertaleMod
     public string DamagePtr = "Undertale.exe+003B41C0,18,AB0";                         // Damage Pointer
     public string ArmorPtr = "Undertale.exe+000E416C,8F4,784,3AC,230";                 // Armor Pointer
     public string KillsPtr = "Undertale.exe+0040894C,44,10,97C,0";                     // Kills Pointer
+    public string NoClipPtr = "Undertale.exe+0040894C,44,10,5EC,460";                  // No Clip Pointer
+
+
 
 
     public void Cons(Mem mem)
@@ -121,9 +125,13 @@ class UndertaleMod
                 {
                     Kill(mem);
                 }
-                else if (input == "commands")
+                else if (input == "enablenoclip")
                 {
-                    Commands(mem);
+                    EnableNoClip(mem, input);
+                }
+                else if (input == "disablenoclip")
+                {
+                    DisableNoClip(mem, input);
                 }
                 else if (input.Contains("help"))
                 {
@@ -163,7 +171,10 @@ class UndertaleMod
                     inputUpper = inputUpper.Replace("changename ", "");
                     SetName(mem, inputUpper);
                 }
-
+                else if (input == "commands")
+                {
+                    Commands(mem);
+                }
                 else if (input == "help")
                 {
                     Help(mem);
@@ -190,7 +201,7 @@ class UndertaleMod
             Console.WriteLine("By SlySlacker & VastraKai"); ;
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("For just a command list, type: command");
+            Console.WriteLine("For just a command list, type: commands");
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Commands:");
@@ -242,6 +253,12 @@ class UndertaleMod
             Console.WriteLine("setdefense <value>: sets the defense value.");
             Console.WriteLine("Saving will make the change persist.");
             Console.WriteLine("");
+            Console.WriteLine("enablenoclip: Enables no clip.");
+            Console.WriteLine("You cannot noclip through some checkpoints (i.e toriel's switch puzzle.)");
+            Console.WriteLine("");
+            Console.WriteLine("disablenoclip: Disables no clip.");
+            Console.WriteLine("If you get stuck in a block or sprite, just reenable no clip and disable it again.");
+            Console.WriteLine("");
 
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -281,6 +298,8 @@ class UndertaleMod
             Console.WriteLine("setitem <slot> <item>");
             Console.WriteLine("setdamage <value>");
             Console.WriteLine("setdefense <value>");
+            Console.WriteLine("enablenoclip");
+            Console.WriteLine("disablenoclip");
             Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
@@ -298,6 +317,43 @@ class UndertaleMod
             Console.WriteLine("Hp has been set to '" + Hp + "'");
             Console.ForegroundColor = ConsoleColor.White;
         }
+        catch (Exception ex)
+        {
+            l.logWrite($"Couldn't write memory: {ex}");
+        }
+    }
+
+    public void EnableNoClip(Mem mem, string Hp)
+    {
+        try
+        {
+
+            mem.WriteMemory(NoClipPtr, "double", "1");
+            Console.ForegroundColor = ConsoleColor.Green;
+            mem.FreezeValue(NoClipPtr, "double", mem.ReadDouble(NoClipPtr).ToString());
+            Console.WriteLine("NoClip enabled.");
+            Console.ForegroundColor = ConsoleColor.White;
+
+        }
+
+        catch (Exception ex)
+        {
+            l.logWrite($"Couldn't write memory: {ex}");
+        }
+    }
+    public void DisableNoClip(Mem mem, string Hp)
+    {
+        try
+        {
+
+            mem.WriteMemory(NoClipPtr, "double", "0");
+            Console.ForegroundColor = ConsoleColor.Red;
+            mem.FreezeValue(NoClipPtr, "double", mem.ReadDouble(NoClipPtr).ToString());
+            Console.WriteLine("NoClip disabled.");
+            Console.ForegroundColor = ConsoleColor.White;
+
+        }
+
         catch (Exception ex)
         {
             l.logWrite($"Couldn't write memory: {ex}");
@@ -776,6 +832,7 @@ class UndertaleMod
         if (item == "hush_puppy") item = "62";
         if (item == "snail_pie") item = "63";
         if (item == "temy_armor") item = "64";
+        
         try
         {
             Double.Parse(item);
