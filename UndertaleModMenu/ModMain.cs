@@ -150,11 +150,7 @@ class UndertaleMod
                 {
                     FreezeHealth(mem);
                 }
-                else if (input.Contains("unfreezehp"))
-                {
-                    UnfreezeHealth(mem);
-                }
-                else if (input.Contains("unfreezehp"))
+                else if (input.Contains("unfreeze"))
                 {
                     UnfreezeHealth(mem);
                 }
@@ -218,7 +214,7 @@ class UndertaleMod
             Console.WriteLine("onehit: Sets all enemies on screen to 1hp");
             Console.WriteLine("Works on some bosses, too.");
             Console.WriteLine("");
-            Console.WriteLine("freezehealth/unfreezehealth: Freezes the health at its current state.");
+            Console.WriteLine("freezehp/unfreeze: Freezes the health at its current state.");
             Console.WriteLine("Nothing can change the value (except for restarting) unless you unfreeze it.");
             Console.WriteLine("If an attack does more damage than the amount set, you will die.");
             Console.WriteLine("");
@@ -285,8 +281,8 @@ class UndertaleMod
             Console.WriteLine("sethp <value>");
             Console.WriteLine("setmaxhp <value>");
             Console.WriteLine("onehit");
-            Console.WriteLine("freezehealth");
-            Console.WriteLine("unfreezehealth");
+            Console.WriteLine("freezehp");
+            Console.WriteLine("unfreeze");
             Console.WriteLine("kill");
             Console.WriteLine("setlove <value>");
             Console.WriteLine("setgold <value>");
@@ -602,7 +598,7 @@ class UndertaleMod
             mem.UnfreezeValue(CurrentHpPtr);
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Hp has been unfrozen with value " + mem.ReadDouble(CurrentHpPtr).ToString());
+            Console.WriteLine("Hp has been unfrozen.");
             Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
