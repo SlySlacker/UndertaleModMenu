@@ -39,6 +39,8 @@ class UndertaleMod
     public string Item8 = "Undertale.exe+004099B4,330,8,50,18,370";                    // Slot 8
     public string DamagePtr = "Undertale.exe+003B41C0,18,AB0";                         // Damage Pointer
     public string ArmorPtr = "Undertale.exe+000E416C,8F4,784,3AC,230";                 // Armor Pointer
+    public string BAKDamagePtr = "Undertale.exe+0021FE80,778,4C,C90,4,230";            // Damage Pointer Backup
+    public string BAKArmorPtr = "Undertale.exe+000E416C,8F4,784,3AC,230";              // Armor Pointer Backup
     public string KillsPtr = "Undertale.exe+0040894C,44,10,97C,0";                     // Kills Pointer
     public string NoClipPtr = "Undertale.exe+0040894C,44,10,5EC,460";                  // No Clip Pointer
 
@@ -63,10 +65,17 @@ class UndertaleMod
         l.logWrite("Successfully hooked to Undertale.exe");
         l.logWrite($"Player Name: {name}");
         Console.WriteLine("");
+
+        l.logWrite($"There is a potential issue with editing/viewing the username.");
+        l.logWrite($"I am working on a fix.");
+
+        Console.WriteLine("");
         l.logWrite($"LOVE: {love}");
         l.logWrite($"EXP: {exp}");
         l.logWrite($"Room ID: {room}");
         l.logWrite($"Gold: {gold}");
+        Console.WriteLine("");
+
         Console.WriteLine("");
 
         while (true)
@@ -361,6 +370,7 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(DamagePtr, "double", damage);
+            mem.WriteMemory(BAKDamagePtr, "double", damage);
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Damage has been set to '" + damage + "'");
             Console.ForegroundColor = ConsoleColor.White;
@@ -375,6 +385,7 @@ class UndertaleMod
         try
         {
             mem.WriteMemory(ArmorPtr, "double", armor);
+            mem.WriteMemory(BAKArmorPtr, "double", armor);
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Defense has been set to '" + armor + "'");
             Console.ForegroundColor = ConsoleColor.White;
@@ -398,7 +409,6 @@ class UndertaleMod
                 l.logWrite("ex string length:" + namehex.Length.ToString());
                 l.logWrite("Hex: " + namehex);
             }
-
             mem.WriteMemory(NamePtr, "bytes", "000000000000");
             mem.WriteMemory(NamePtr, "bytes", namehex);
             Console.ForegroundColor = ConsoleColor.Blue;
