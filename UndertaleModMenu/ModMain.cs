@@ -28,7 +28,7 @@ class UndertaleMod
     public string BAKEnemyTwoPtr = "Undertale.exe+00218418,4,D0";                      // Enemy Two pointer backup
     public string BAKEnemyThreePtr = "Undertale.exe+00061FC0,5,B60";                   // Enemy Three pointer backup (i have no idea if this works)
     public string RoomPtr = "Undertale.exe+618EA0";                                    // Room Pointer
-    public string NamePtr = "Undertale.exe+003FC5EC,0,14,0,8,18,10,2B0";               // Name Pointer
+    public string NamePtr = "Undertale.exe+00408888,138,18,10,14,280";               // Name Pointer
     public string Item1 = "Undertale.exe+004099B4,330,8,50,18,300";                    // Slot 1
     public string Item2 = "Undertale.exe+004099B4,330,8,50,18,310";                    // Slot 2  
     public string Item3 = "Undertale.exe+004099B4,330,8,50,18,320";                    // Slot 3
@@ -163,7 +163,7 @@ class UndertaleMod
                 {
                     UnfreezeHealth(mem);
                 }
-               else if (input == "onehit")
+                else if (input == "onehit")
                 {
                     OneHit(mem);
                 }
@@ -526,7 +526,7 @@ class UndertaleMod
         try
         {
             string[] args = item1.Split(" ");
-            if (args[1] == null) throw new Exception("You must specify the item."); 
+            if (args[1] == null) throw new Exception("You must specify the item.");
             string slot = args[0];
             string item = args[1];
             item = getItemId(item);
@@ -548,7 +548,6 @@ class UndertaleMod
             l.logWrite($"Couldn't write memory: {ex}", "error");
         }
     }
-
     public void FreezeHealth(Mem mem)
     {
         try
