@@ -1,34 +1,44 @@
-﻿using Memory;
+﻿global using ExtendedConsole;
+global using Console = ExtendedConsole.Console;
+using Memory;
 using System;
 using System.Diagnostics;
 using System.Threading;
+using UndertaleModMenu.Command;
+using UndertaleModMenu.Extensions;
+
+namespace UndertaleModMenu;
+
 class Program
 {
-
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-        Logging log = new Logging();
-        log.configConsole();
-        Mem mem = new Mem();
         try
         {
-            int pid = mem.GetProcIdFromName("UNDERTALE");
-            if (pid < 1) throw new Exception("Failed to find Undertale process"); // if undertale isn't found, throw an exception
-            mem.OpenProcess(pid);
-            UndertaleMod um = new UndertaleMod();
-            Thread th = new Thread(() => um.Cons(mem));
-            th.Start(); 
+            Console.Title = "Undertale Mod Menu";
+            Console.Config.SetupConsole();
+            Console.Log.WriteLine("Main", "&bInitializing memory manager...");
+            MemMgr.Init();
+            Console.Log.WriteLine("Main", "&aMemory manager initialized!");
+            // Initialize commands
+            CommandManager.Init();
+            
             while (true)
             {
-                int bruh = mem.GetProcIdFromName("UNDERTALE");
-                if (bruh < 1) throw new Exception("Undertale was closed"); // if undertale isn't found, throw an exception
-                Thread.Sleep(1000);
+                Console.Write("> ");
+                string? command = Console.ReadLine();
+                if (command.IsNullOrEmpty())
+                {
+                    continue;
+                }
+                CommandManager.ExecuteCommand(command);
             }
-        }
-        catch (Exception ex)
+            
+        } catch (Exception e)
         {
-            log.logWrite("Failed: " + ex);
-            Process.GetCurrentProcess().Kill();
+            Console.Log.WriteLine("Main", "&cError initializing memory manager!", LogLevel.Critical);
+            Console.Log.WriteLine("Main", "&c" + e, LogLevel.Critical);
+            Console.WaitForEnter("Press enter to exit...");
         }
     }
 }
