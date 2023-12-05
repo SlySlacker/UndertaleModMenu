@@ -8,11 +8,13 @@ public static class CommandManager
     
     public static void Init()
     {
+        Console.Log.WriteLine("CommandManager", "&aLoading commands...");
         foreach (Type type in Assembly.GetExecutingAssembly().GetTypes().Where(x => x.IsSubclassOf(typeof(Command))).OrderBy(x => x.Name))
         {
             Console.Log.WriteLine("CommandManager", $"&aLoaded command &f{type.Name}");
             Commands.Add((Command)Activator.CreateInstance(type));
         }
+        Console.Log.WriteLine("CommandManager", "&aCommands loaded!");
     }
     
     public static void ExecuteCommand(string command)
@@ -35,7 +37,7 @@ public static class CommandManager
         
         if (!flag)
         {
-            Console.Log.WriteLine("CommandManager", $"&cUnknown command &f{cmd}");
+            Console.Log.WriteLine("CommandManager", $"&cUnknown command &f{cmd}", LogLevel.Error);
             Commands.Find(command => command.Name == "help")!.Execute(Array.Empty<string>());
         }
     }

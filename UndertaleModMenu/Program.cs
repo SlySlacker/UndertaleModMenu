@@ -17,10 +17,7 @@ class Program
         {
             Console.Title = "Undertale Mod Menu";
             Console.Config.SetupConsole();
-            Console.Log.WriteLine("Main", "&bInitializing memory manager...");
             MemMgr.Init();
-            Console.Log.WriteLine("Main", "&aMemory manager initialized!");
-            // Initialize commands
             CommandManager.Init();
             
             while (true)
