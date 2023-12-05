@@ -1,6 +1,5 @@
 Use these in setarmor, setweapon, and setitem.
 A "+" at the end means its a valid weapon, a "-" at the end means its a valid armor.
-Sly is epic :tr
 
 (use like setitem 3 5, or setitem 3 rock_candy)
 
