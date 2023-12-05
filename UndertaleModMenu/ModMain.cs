@@ -8,6 +8,7 @@ using Memory;
 
 class UndertaleMod
 {
+    private const string V = "string";
     bool NoClipTog = false;
     public void killProc() => Process.GetCurrentProcess().Kill();
     public void blank() => Console.WriteLine("");
@@ -28,7 +29,7 @@ class UndertaleMod
     public string BAKEnemyTwoPtr = "Undertale.exe+00218418,4,D0";                      // Enemy Two pointer backup
     public string BAKEnemyThreePtr = "Undertale.exe+00061FC0,5,B60";                   // Enemy Three pointer backup (i have no idea if this works)
     public string RoomPtr = "Undertale.exe+618EA0";                                    // Room Pointer
-    public string NamePtr = "Undertale.exe+00408888,138,18,10,14,280";               // Name Pointer
+    public string NamePtr = "Undertale.exe+0053C03C,8B,4C,24,20";                      // Name Pointer
     public string Item1 = "Undertale.exe+004099B4,330,8,50,18,300";                    // Slot 1
     public string Item2 = "Undertale.exe+004099B4,330,8,50,18,310";                    // Slot 2  
     public string Item3 = "Undertale.exe+004099B4,330,8,50,18,320";                    // Slot 3
@@ -63,20 +64,14 @@ class UndertaleMod
         string name = mem.ReadString(NamePtr);
 
         l.logWrite("Successfully hooked to Undertale.exe");
-        l.logWrite($"Player Name: {name}");
         Console.WriteLine("");
 
-        l.logWrite($"There is a potential issue with editing/viewing the username.");
-        l.logWrite($"I am working on a fix.");
-
-        Console.WriteLine("");
         l.logWrite($"LOVE: {love}");
         l.logWrite($"EXP: {exp}");
         l.logWrite($"Room ID: {room}");
         l.logWrite($"Gold: {gold}");
         Console.WriteLine("");
 
-        Console.WriteLine("");
 
         while (true)
         {
@@ -203,7 +198,7 @@ class UndertaleMod
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("UndertaleModMenu");
-            Console.WriteLine("By SlySlacker & VastraKai"); ;
+            Console.WriteLine("By xMocha & VastraKai"); ;
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("For just a command list, type: commands");
@@ -236,11 +231,9 @@ class UndertaleMod
             Console.WriteLine("setgold <value>: Sets the current Gold value.");
             Console.WriteLine("Saving in game will make the value persist.");
             Console.WriteLine("");
-            Console.WriteLine("changename <name>: Sets the Players name.");
+            Console.WriteLine("CURRENTLY NOT WORKING: changename <name>: Sets the Players name.");
             Console.WriteLine("Saving in game will make the name persist.");
             Console.WriteLine("Be careful! If you make it too long you will have to fix it manually, this is at least 50 characters though.");
-            Console.WriteLine("");
-            Console.WriteLine("crash: Crashes the game, anything unsaved will be lost.");
             Console.WriteLine("");
             Console.WriteLine("info: Shows some in-game info");
             Console.WriteLine("");
@@ -295,8 +288,7 @@ class UndertaleMod
             Console.WriteLine("kill");
             Console.WriteLine("setlove <value>");
             Console.WriteLine("setgold <value>");
-            Console.WriteLine("changename <name>");
-            Console.WriteLine("crash");
+            Console.WriteLine("CURRENTLY NOT WORKING: changename <name>");
             Console.WriteLine("info");
             Console.WriteLine("setweapon <item>");
             Console.WriteLine("setarmor <item>");
@@ -423,19 +415,6 @@ class UndertaleMod
     }
     public void Crash(Mem mem)
     {
-        try
-        {
-
-            mem.WriteMemory(NamePtr, "string", "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        catch (Exception ex)
-        {
-            l.logWrite($"Couldn't write memory: {ex}");
-        }
-        killProc();
     }
 
     public void SetExp(Mem mem, string Exp)
