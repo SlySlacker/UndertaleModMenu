@@ -6,12 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Memory;
 
-class UndertaleMod
+class UndertaleMod // Ok, what the spruce
 {
-    private const string V = "string";
+    private const string V = "string"; // V
     bool NoClipTog = false;
-    public void killProc() => Process.GetCurrentProcess().Kill();
-    public void blank() => Console.WriteLine("");
+    public void killProc()
+    {
+        Process.GetCurrentProcess().Kill();
+    }
+    public void blank()
+    {
+        Console.WriteLine("");
+    }
     Logging l = new Logging();
 
     public string CurrentHpPtr = "Undertale.exe+00408950,44,10,D0,460";                // Current health pointer
@@ -154,9 +160,9 @@ class UndertaleMod
                 {
                     FreezeHealth(mem);
                 }
-                else if (input.Contains("unfreeze"))
+                else if (input.Contains("hpunfreeze"))
                 {
-                    UnfreezeHealth(mem);
+                    hpunfreeze(mem);
                 }
                 else if (input == "onehit")
                 {
@@ -166,9 +172,9 @@ class UndertaleMod
                 {
                     Crash(mem);
                 }
-                else if (input.Contains("changename "))
+                else if (input.Contains("changename"))
                 {
-                    inputUpper = inputUpper.Replace("changename ", "");
+                    inputUpper = inputUpper.Replace("changename", "");
                     SetName(mem, inputUpper);
                 }
                 else if (input == "commands")
@@ -218,7 +224,7 @@ class UndertaleMod
             Console.WriteLine("onehit: Sets all enemies on screen to 1hp");
             Console.WriteLine("Works on some bosses, too.");
             Console.WriteLine("");
-            Console.WriteLine("freezehp/unfreeze: Freezes the health at its current state.");
+            Console.WriteLine("freezehp/hpunfreeze: Freezes the health at its current state.");
             Console.WriteLine("Nothing can change the value (except for restarting) unless you unfreeze it.");
             Console.WriteLine("If an attack does more damage than the amount set, you will die.");
             Console.WriteLine("");
@@ -230,10 +236,6 @@ class UndertaleMod
             Console.WriteLine("");
             Console.WriteLine("setgold <value>: Sets the current Gold value.");
             Console.WriteLine("Saving in game will make the value persist.");
-            Console.WriteLine("");
-            Console.WriteLine("CURRENTLY NOT WORKING: changename <name>: Sets the Players name.");
-            Console.WriteLine("Saving in game will make the name persist.");
-            Console.WriteLine("Be careful! If you make it too long you will have to fix it manually, this is at least 50 characters though.");
             Console.WriteLine("");
             Console.WriteLine("info: Shows some in-game info");
             Console.WriteLine("");
@@ -262,9 +264,12 @@ class UndertaleMod
         }
         catch (Exception ex)
         {
-            if (Debugger.IsAttached) {
+            if (Debugger.IsAttached)
+            {
                 Console.WriteLine("Error at help: " + ex);
-            } else {
+            }
+            else
+            {
                 Console.WriteLine("An unknown error has occured");
             }
 
@@ -284,11 +289,10 @@ class UndertaleMod
             Console.WriteLine("setmaxhp <value>");
             Console.WriteLine("onehit");
             Console.WriteLine("freezehp");
-            Console.WriteLine("unfreeze");
+            Console.WriteLine("hpunfreeze");
             Console.WriteLine("kill");
             Console.WriteLine("setlove <value>");
             Console.WriteLine("setgold <value>");
-            Console.WriteLine("CURRENTLY NOT WORKING: changename <name>");
             Console.WriteLine("info");
             Console.WriteLine("setweapon <item>");
             Console.WriteLine("setarmor <item>");
@@ -387,7 +391,7 @@ class UndertaleMod
             l.logWrite($"Couldn't write memory: {ex}");
         }
     }
-    public void SetName(Mem mem, string Name)
+    public void SetName(Mem mem, string Name) // this doesnt work cuz fuck strings
     {
         try
         {
@@ -413,7 +417,7 @@ class UndertaleMod
             l.logWrite($"Couldn't write memory: {ex}");
         }
     }
-    public void Crash(Mem mem)
+    public void Crash(Mem mem) // disabled this due to its wacky non working features
     {
     }
 
@@ -579,39 +583,22 @@ class UndertaleMod
 
     }
 
-    public void UnfreezeHealth(Mem mem)
+    public void hpunfreeze(Mem mem) // cuz fuck me ig
     {
         try
         {
             mem.UnfreezeValue(CurrentHpPtr);
-            Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Hp has been unfrozen.");
             Console.ForegroundColor = ConsoleColor.White;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Unable to freeze health: " + ex);
+            Console.WriteLine($"Unable to unfreeze health: " + ex);
         }
     }
 
     public void SetMaxHp(Mem mem, string Hp)
-    {
-        try
-        {
-            mem.WriteMemory(MaxHpPtr, "double", Hp);
-            mem.FreezeValue(MaxHpPtr, "double", mem.ReadDouble(MaxHpPtr).ToString());
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("MaxHp has been set to '" + Hp + "'");
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Couldn't write memory: {ex}");
-        }
-    }
-
-    public void Equi(Mem mem, string Hp)
     {
         try
         {
@@ -654,7 +641,7 @@ class UndertaleMod
         string name = mem.ReadString(NamePtr);
         bool isBattling = false;
         if (battle > 0) isBattling = true;
-       
+
         bool GenoComp = false;
         if (kills > 105) GenoComp = true;
 
@@ -732,7 +719,8 @@ class UndertaleMod
             uint room = mem.ReadUInt(RoomPtr);
             if (room < 4)
             {
-                if (!msgDisplayed) {
+                if (!msgDisplayed)
+                {
                     l.logWrite("Waiting for you to load a save first...");
                     l.logWrite("If you load a save and this doesn't continue, your version of UNDERTALE is not 1.08.");
                     msgDisplayed = true;
@@ -816,16 +804,18 @@ class UndertaleMod
         if (item == "hush_puppy") item = "62";
         if (item == "snail_pie") item = "63";
         if (item == "temy_armor") item = "64";
-        
+
         try
         {
             Double.Parse(item);
-        } catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             if (Debugger.IsAttached)
             {
                 Console.WriteLine("Something went wrong: " + ex);
-            } else
+            }
+            else
             {
                 Console.WriteLine("Something went wrong: " + ex.Message);
             }
@@ -836,4 +826,3 @@ class UndertaleMod
 
 
 }
-

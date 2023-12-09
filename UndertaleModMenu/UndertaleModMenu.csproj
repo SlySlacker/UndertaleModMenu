@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon>Removal-573.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,10 @@
 
   <ItemGroup>
     <None Remove="NewFile1.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Removal-573.ico" />
   </ItemGroup>
 
   <ItemGroup>
